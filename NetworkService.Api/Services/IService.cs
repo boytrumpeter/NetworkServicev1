@@ -5,6 +5,6 @@
 
     public interface IService
     {
-        Task<NetworkResponse> ProcessRequest(NetworkRequest request);
+        Task<IResult> ProcessRequest(NetworkRequest request);
     }
 }

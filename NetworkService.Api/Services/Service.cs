@@ -1,10 +1,11 @@
 ﻿namespace NetworkService.Api.Services
 {
-    
+    using Microsoft.AspNetCore.Mvc;
     using NetworkService.Api.Reponses;
     using NetworkService.Api.Requests;
     using NetworkService.Core;
     using NetworkService.Core.Providers;
+    using System;
     using System.Threading.Tasks;
     
     public class Service : IService
@@ -16,18 +17,19 @@
             _networkProvider = networkProvider;
         }
 
-        public async Task<NetworkResponse> ProcessRequest(NetworkRequest request)
+        public async Task<IResult> ProcessRequest(NetworkRequest request)
         {
-            if (request.Network == null)
+            
+            if (!Validate(request))
             {
-                new NetworkResponse(request.SelectedNode, 0);
+                return Results.BadRequest("Bad request");
             }
 
-            Network network = null;
+            Network network = new Network();
 
             foreach (var branch in request.Network.Branches)
             {
-                if (_networkProvider.Networks.Count == 0 || network?.FindNode(branch.StartNode) == null)
+                if (network.FindNode(branch.StartNode) == null)
                 {
                     network = await _networkProvider.CreateNetwork();
                 }
@@ -39,7 +41,23 @@
 
             var numberOfCustomers = request.Network.Customers.Sum(x => nodes.Contains(x.Node) ? x.NumberOfCustomers : 0);
 
-            return new NetworkResponse(request.SelectedNode, numberOfCustomers);
+            return Results.Ok(new NetworkResponse(request.SelectedNode, numberOfCustomers));
+        }
+
+        #region Private Methods
+        private bool Validate(NetworkRequest request)
+        {
+            if (request == null)
+            {
+                return false;
+            }
+
+            if(request.Network == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private async Task<List<int>> GetDownStreamNodes(int selectedNode)
@@ -56,5 +74,6 @@
 
             return nodes;
         }
+        #endregion
     }
 }

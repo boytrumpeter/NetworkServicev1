@@ -5,9 +5,9 @@
         public NetworkResponse(int selectedNode, int numberOfCustomers)
         {
             SelectedNode = selectedNode;
-            NumberOfCustomers = numberOfCustomers;
+            TotalNumberOfCustomers = numberOfCustomers;
         }
         public int SelectedNode { get; private set; }
-        public int NumberOfCustomers { get; private set; }
+        public int TotalNumberOfCustomers { get; private set; }
     }
 }

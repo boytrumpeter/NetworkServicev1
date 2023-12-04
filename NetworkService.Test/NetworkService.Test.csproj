@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NetworkService.Api\NetworkService.Api.csproj" />
     <ProjectReference Include="..\NetworkService.Core\NetworkService.Core.csproj" />
   </ItemGroup>
 

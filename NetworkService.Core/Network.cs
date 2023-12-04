@@ -20,6 +20,7 @@
             if (Root == null)
             {
                 Root = startNetworkNode;
+                Validate(startNetworkNode, endNetworkNode);
                 Root.EndNodes.Add(endNetworkNode);
                 return;
             }

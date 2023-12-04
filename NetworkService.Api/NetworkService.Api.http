@@ -23,7 +23,7 @@ Content-Type: application/json
 {"node": 90,"numberOfCustomers": 5}
 ]
 },
-"selectedNode": 50
+"selectedNode": 0
 }
 
 ###
